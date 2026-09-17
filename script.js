@@ -1,5 +1,5 @@
 // En production, remplace cette URL par l'adresse publique de ton backend.
-const API_URL = "http://localhost:5000";
+const API_URL = "https://pixelworld-0wr6.onrender.com";
 const SIZE = 100;
 const COOLDOWN = 60;
 const COLORS = ["#000000","#ffffff","#ff3b30","#ff9500","#ffcc00","#34c759","#00c7be","#007aff","#5856d6","#af52de","#ff2d55","#8e8e93"];
