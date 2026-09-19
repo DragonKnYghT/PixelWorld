@@ -1,4 +1,4 @@
-const API_URL = "https://pixelworld-0wr6.onrender.com";
+const API_URL="https://pixelworld-0wr6.onrender.com";
 let authToken = localStorage.getItem("pixelworld_token") || "";
 if (location.hash.startsWith("#token=")) { authToken = decodeURIComponent(location.hash.slice(7)); localStorage.setItem("pixelworld_token", authToken); history.replaceState(null, "", location.pathname + location.search); }
 function authHeaders(extra={}) { return authToken ? {...extra, Authorization: "Bearer " + authToken} : extra; }
