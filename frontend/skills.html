@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixelWorld • Compétences</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div><h1>🧠 Arbre de compétences</h1><p>Améliore ton compte en utilisant tes points de compétence.</p></div>
+  <div class="header-actions"><a class="top-button" href="index.html">🌍 Retour à la carte</a><div id="accountArea"></div></div>
+</header>
+<main class="skills-page">
+  <section class="skill-header">
+    <div><h2>Points disponibles : <span id="skillPoints">0</span></h2><p>Tu gagnes 1 point tous les 50 pixels posés.</p></div>
+    <div class="skill-stat"><span>Pixels posés</span><strong id="totalPlaced">0</strong></div>
+  </section>
+  <section class="skill-tree">
+    <article class="skill-card">
+      <div class="skill-icon">📦</div>
+      <h3>Stockage</h3>
+      <p>Augmente le nombre maximum de pixels que tu peux garder.</p>
+      <div class="level" id="storageLevel">Niveau 0 / 5</div>
+      <ul><li>+5 pixels de stockage par niveau</li><li>Maximum : 45 pixels</li></ul>
+      <button class="skill-button" data-skill="storage">Améliorer • 1 point</button>
+    </article>
+    <article class="skill-card">
+      <div class="skill-icon">⏱️</div>
+      <h3>Recharge rapide</h3>
+      <p>Réduit le temps nécessaire pour récupérer une charge.</p>
+      <div class="level" id="cooldownLevel">Niveau 0 / 5</div>
+      <ul><li>-5 secondes par niveau</li><li>Minimum : 35 secondes</li></ul>
+      <button class="skill-button" data-skill="cooldown">Améliorer • 1 point</button>
+    </article>
+    <article class="skill-card">
+      <div class="skill-icon">✨</div>
+      <h3>Pixel critique</h3>
+      <p>Une pose peut devenir gratuite et ne pas consommer de charge.</p>
+      <div class="level" id="critLevel">Niveau 0 / 5</div>
+      <ul><li>+1 % de chance par niveau</li><li>Maximum : 5 %</li></ul>
+      <button class="skill-button" data-skill="crit">Améliorer • 1 point</button>
+    </article>
+  </section>
+  <div id="skillMessage" class="skill-message"></div>
+</main>
+<footer><span>PixelWorld • Open Source</span><span>Les compétences sont liées à ton compte Discord</span></footer>
+<script src="skills.js"></script>
+</body>
+</html>
