@@ -30,7 +30,7 @@ FRONTEND_ORIGIN = "https://dragonknyght.github.io"
 
 CORS(app, origins=[FRONTEND_ORIGIN],supports_credentials=True, allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "OPTIONS"])
 
-WORLD_SIZE = 2500
+WORLD_SIZE = 5000
 BASE_RECHARGE_SECONDS = 60
 
 COLORS = {
