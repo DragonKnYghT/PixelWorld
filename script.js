@@ -2,7 +2,7 @@ const API_URL="https://pixelworld-0wr6.onrender.com";
 let authToken = localStorage.getItem("pixelworld_token") || "";
 if (location.hash.startsWith("#token=")) { authToken = decodeURIComponent(location.hash.slice(7)); localStorage.setItem("pixelworld_token", authToken); history.replaceState(null, "", location.pathname + location.search); }
 function authHeaders(extra={}) { return authToken ? {...extra, Authorization: "Bearer " + authToken} : extra; }
-const SIZE = 2500;
+const SIZE = 5000;
 const COLORS = [
   "#000000","#ffffff","#ff3b30","#ff9500","#ffcc00","#34c759",
   "#00c7be","#007aff","#5856d6","#af52de","#ff2d55","#8e8e93",
