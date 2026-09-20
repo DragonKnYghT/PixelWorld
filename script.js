@@ -56,7 +56,7 @@ function draw(){
   }
 ctx.strokeStyle = "#3b3f50";
 ctx.lineWidth = 4;
-ctx.strokeRect(offsetX, offsetY, WORLD_SIZE * s, WORLD_SIZE * s);
+ctx.strokeRect(offsetX, offsetY, SIZE * s, SIZE * s);
 }
 
 function screenToCell(clientX,clientY){const r=canvas.getBoundingClientRect(),s=cellSize();const x=Math.floor((clientX-r.left-offsetX)/s),y=Math.floor((clientY-r.top-offsetY)/s);return x>=0&&y>=0&&x<SIZE&&y<SIZE?{x,y}:null;}
