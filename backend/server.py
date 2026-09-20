@@ -23,7 +23,7 @@ DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID", "")
 DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET", "")
 DISCORD_REDIRECT_URI = os.getenv("DISCORD_REDIRECT_URI", "https://pixelworld-0wr6.onrender.com/auth/discord/callback")
 
-CORS(app, origins=[FRONTEND_URL], allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "OPTIONS"])
+CORS(app, origins=[FRONTEND_ORIGIN], allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "OPTIONS"])
 
 WORLD_SIZE = 2500
 BASE_RECHARGE_SECONDS = 60
