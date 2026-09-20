@@ -54,10 +54,10 @@ function draw(){
     if(px+s<0||py+s<0||px>w||py>h)continue;
     ctx.fillStyle=p.color;ctx.fillRect(px,py,Math.max(1,s+.15),Math.max(1,s+.15));
   }
-}
 ctx.strokeStyle = "#3b3f50";
-ctx.lineWidth = 4 / s;
-ctx.strokeRect(0, 0, WORLD_SIZE, WORLD_SIZE);
+ctx.lineWidth = 4;
+ctx.strokeRect(offsetX, offsetY, WORLD_SIZE * s, WORLD_SIZE * s);
+}
 
 function screenToCell(clientX,clientY){const r=canvas.getBoundingClientRect(),s=cellSize();const x=Math.floor((clientX-r.left-offsetX)/s),y=Math.floor((clientY-r.top-offsetY)/s);return x>=0&&y>=0&&x<SIZE&&y<SIZE?{x,y}:null;}
 
