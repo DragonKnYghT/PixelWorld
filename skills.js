@@ -1,4 +1,4 @@
-const API_URL="https://pixelworld-0wr6.onrender.com";
+const API_URL = "https://pixelworld-0wr6.onrender.com";
 const accountArea=document.getElementById("accountArea"), pointsEl=document.getElementById("skillPoints"), totalEl=document.getElementById("totalPlaced"), messageEl=document.getElementById("skillMessage");
 let player=null;
 function esc(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]));}
