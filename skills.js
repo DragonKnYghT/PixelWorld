@@ -8,3 +8,5 @@ function render(){if(!player){pointsEl.textContent="0";totalEl.textContent="0";d
 async function load(){try{const r=await fetch(API_URL+"/api/me",{headers:authHeaders()});const d=await r.json();player=d.player;accountUI();render();if(!player)msg("Connecte-toi avec Discord pour utiliser l'arbre de compétences.");}catch{msg("Serveur inaccessible.");}}
 document.querySelectorAll(".skill-button").forEach(b=>b.onclick=async()=>{if(!player)return;const r=await fetch(API_URL+"/api/skills/"+b.dataset.skill,{method:"POST",headers:authHeaders()});const d=await r.json();if(!r.ok){msg(d.error||"Impossible.");return;}player=d.player;render();msg("🧠 Compétence améliorée !");});
 load();
+
+// Ceci est un commentaire sur une seule ligne
