@@ -53,7 +53,7 @@ function draw(){
     const [x,y]=key.split(",").map(Number),px=offsetX+x*s,py=offsetY+y*s;
     if(px+s<0||py+s<0||px>w||py>h)continue;
     ctx.fillStyle=p.color;ctx.fillRect(px,py,Math.max(1,s+.15),Math.max(1,s+.15));
-    if(s>=8){ctx.strokeStyle="rgba(0,0,0,.18)";ctx.strokeRect(px,py,s,s);}
+    if(s>=8){ctx.strokeStyle="#3b3f50";ctx.lineWidth = 4;ctx.strokeRect(0, 0, WORLD_SIZE, WORLD_SIZE);}
   }
 }
 function screenToCell(clientX,clientY){const r=canvas.getBoundingClientRect(),s=cellSize();const x=Math.floor((clientX-r.left-offsetX)/s),y=Math.floor((clientY-r.top-offsetY)/s);return x>=0&&y>=0&&x<SIZE&&y<SIZE?{x,y}:null;}
