@@ -1,4 +1,11 @@
 const API_URL = "https://pixelworld-0wr6.onrender.com";
+function authHeaders() {
+    const token = localStorage.getItem("pixelworld_token");
+    return token
+        ? { "Authorization": `Bearer ${token}` }
+        : {};
+}
+
 const accountArea=document.getElementById("accountArea"), pointsEl=document.getElementById("skillPoints"), totalEl=document.getElementById("totalPlaced"), messageEl=document.getElementById("skillMessage");
 let player=null;
 function esc(s){return String(s).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]));}
