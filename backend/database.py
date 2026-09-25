@@ -24,6 +24,7 @@ def q(sql):
 
 def init_db():
     c = get_connection()
+
     c.execute(q("""CREATE TABLE IF NOT EXISTS pixels (
         x INTEGER NOT NULL,
         y INTEGER NOT NULL,
@@ -33,12 +34,14 @@ def init_db():
         updated_at TEXT NOT NULL,
         PRIMARY KEY (x,y)
     )"""))
+
     c.execute(q("""CREATE TABLE IF NOT EXISTS auth_sessions (
         token_hash TEXT PRIMARY KEY,
         discord_id TEXT NOT NULL,
         created_at TEXT NOT NULL,
         expires_at TEXT NOT NULL
     )"""))
+
     c.execute(q("""CREATE TABLE IF NOT EXISTS players (
         discord_id TEXT PRIMARY KEY,
         username TEXT NOT NULL,
@@ -51,6 +54,7 @@ def init_db():
         total_placed INTEGER NOT NULL DEFAULT 0,
         skill_points_spent INTEGER NOT NULL DEFAULT 0
     )"""))
+
     c.execute(q("""CREATE TABLE IF NOT EXISTS redeemed_codes (
         code TEXT NOT NULL,
         discord_id TEXT NOT NULL,
@@ -58,22 +62,58 @@ def init_db():
         PRIMARY KEY (code, discord_id)
     )"""))
 
+    c.execute(q("""CREATE TABLE IF NOT EXISTS oauth_states (
+        state TEXT PRIMARY KEY,
+        created_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL
+    )"""))
+
     if not USE_POSTGRES:
         # Small migration for older SQLite databases.
-        cols = {row[1] for row in c.execute("PRAGMA table_info(pixels)").fetchall()}
+        cols = {
+            row[1]
+            for row in c.execute("PRAGMA table_info(pixels)").fetchall()
+        }
+
         if "discord_id" not in cols:
-            c.execute("ALTER TABLE pixels ADD COLUMN discord_id TEXT")
-        player_cols = {row[1] for row in c.execute("PRAGMA table_info(players)").fetchall()}
-        required = {"discord_id", "username", "pixel_balance", "max_storage", "last_recharge_at", "cooldown_level", "storage_level", "crit_level", "total_placed", "skill_points_spent"}
+            c.execute(
+                "ALTER TABLE pixels ADD COLUMN discord_id TEXT"
+            )
+
+        player_cols = {
+            row[1]
+            for row in c.execute("PRAGMA table_info(players)").fetchall()
+        }
+
+        required = {
+            "discord_id",
+            "username",
+            "pixel_balance",
+            "max_storage",
+            "last_recharge_at",
+            "cooldown_level",
+            "storage_level",
+            "crit_level",
+            "total_placed",
+            "skill_points_spent"
+        }
+
         if player_cols and not required.issubset(player_cols):
             c.execute("DROP TABLE players")
+
             c.execute("""CREATE TABLE players (
-                discord_id TEXT PRIMARY KEY, username TEXT NOT NULL,
-                pixel_balance INTEGER NOT NULL DEFAULT 20, max_storage INTEGER NOT NULL DEFAULT 20,
-                last_recharge_at TEXT NOT NULL, cooldown_level INTEGER NOT NULL DEFAULT 0,
-                storage_level INTEGER NOT NULL DEFAULT 0, crit_level INTEGER NOT NULL DEFAULT 0,
-                total_placed INTEGER NOT NULL DEFAULT 0, skill_points_spent INTEGER NOT NULL DEFAULT 0
+                discord_id TEXT PRIMARY KEY,
+                username TEXT NOT NULL,
+                pixel_balance INTEGER NOT NULL DEFAULT 20,
+                max_storage INTEGER NOT NULL DEFAULT 20,
+                last_recharge_at TEXT NOT NULL,
+                cooldown_level INTEGER NOT NULL DEFAULT 0,
+                storage_level INTEGER NOT NULL DEFAULT 0,
+                crit_level INTEGER NOT NULL DEFAULT 0,
+                total_placed INTEGER NOT NULL DEFAULT 0,
+                skill_points_spent INTEGER NOT NULL DEFAULT 0
             )""")
+
     c.commit()
     c.close()
 
