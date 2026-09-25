@@ -3,7 +3,7 @@ import os
 import re
 import secrets
 from datetime import datetime, timezone, timedelta
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
 import requests
 from flask import Flask, jsonify, request, redirect, session
@@ -17,14 +17,29 @@ from database import (
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-only-change-me")
-app.config.update(SESSION_COOKIE_SECURE=True, SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax")
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="None"
+)
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5500").rstrip("/")
+FRONTEND_URL = os.getenv(
+    "FRONTEND_URL",
+    "https://dragonknyght.github.io/PixelWorld"
+).rstrip("/")
+
+FRONTEND_ORIGIN = f"{urlparse(FRONTEND_URL).scheme}://{urlparse(FRONTEND_URL).netloc}"
 DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID", "")
 DISCORD_CLIENT_SECRET = os.getenv("DISCORD_CLIENT_SECRET", "")
 DISCORD_REDIRECT_URI = os.getenv("DISCORD_REDIRECT_URI", "https://pixelworld-0wr6.onrender.com/auth/discord/callback")
 
-CORS(app, origins=[FRONTEND_URL], allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "OPTIONS"])
+CORS(
+    app,
+    origins=[FRONTEND_ORIGIN],
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "OPTIONS"]
+)
 
 WORLD_SIZE = 2500
 BASE_RECHARGE_SECONDS = 60
