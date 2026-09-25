@@ -6,13 +6,13 @@ from datetime import datetime, timezone, timedelta
 from urllib.parse import urlencode, urlparse
 
 import requests
-from flask import Flask, jsonify, request, redirect, session
+from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 
 from database import (
     init_db, get_all_pixels, get_pixel, get_player, get_player_by_id,
     update_player, save_pixel, create_auth_session, get_auth_session,
-    delete_auth_session, redeem_code,
+    delete_auth_session, redeem_code, create_oauth_state, consume_oauth_state,
 )
 
 app = Flask(__name__)
@@ -22,6 +22,8 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="None"
 )
+
+from urllib.parse import urlparse
 
 FRONTEND_URL = os.getenv(
     "FRONTEND_URL",
@@ -68,6 +70,30 @@ DEFAULT_PIXEL_CODES = [
 PIXEL_CODES = {c.strip().upper(): 10 for c in os.getenv("PIXEL_CODES", ",".join(DEFAULT_PIXEL_CODES)).split(",") if c.strip()}
 
 init_db()
+def init_db():
+    c = get_connection()
+
+    # tes autres tables
+    c.execute(q("""CREATE TABLE IF NOT EXISTS players (
+        ...
+    )"""))
+
+    c.execute(q("""CREATE TABLE IF NOT EXISTS redeemed_codes (
+        code TEXT NOT NULL,
+        discord_id TEXT NOT NULL,
+        redeemed_at TEXT NOT NULL,
+        PRIMARY KEY (code, discord_id)
+    )"""))
+
+    # AJOUTER ÇA
+    c.execute(q("""CREATE TABLE IF NOT EXISTS oauth_states (
+        state TEXT PRIMARY KEY,
+        created_at TEXT NOT NULL,
+        expires_at TEXT NOT NULL
+    )"""))
+
+    c.commit()
+    c.close()
 
 
 def token_hash(token):
@@ -255,7 +281,11 @@ def discord_login():
     if not DISCORD_CLIENT_ID or not DISCORD_CLIENT_SECRET:
         return jsonify({"error": "Discord OAuth n'est pas encore configuré sur le serveur."}), 503
     state = secrets.token_urlsafe(32)
-    session["oauth_state"] = state
+
+    create_oauth_state(
+        state,
+        (datetime.now(timezone.utc) + timedelta(minutes=10)).isoformat()
+    )
     params = {"client_id": DISCORD_CLIENT_ID, "redirect_uri": DISCORD_REDIRECT_URI, "response_type": "code", "scope": "identify", "state": state}
     return redirect("https://discord.com/oauth2/authorize?" + urlencode(params))
 
@@ -265,8 +295,11 @@ def discord_callback():
     if request.args.get("error"):
         return redirect(FRONTEND_URL + "?login=cancelled")
     state = request.args.get("state")
-    if not state or state != session.pop("oauth_state", None):
-        return jsonify({"error": "État OAuth invalide."}), 400
+
+    if not state or not consume_oauth_state(state):
+        return jsonify({
+            "error": "État OAuth invalide ou expiré. Relance la connexion Discord."
+        }), 400
     code = request.args.get("code")
     if not code:
         return jsonify({"error": "Code Discord manquant."}), 400
