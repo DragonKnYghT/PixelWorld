@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PixelWorld • Compétences</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div><h1>🧠 Arbre de compétences</h1><p>36 niveaux par compétence. Parce qu'apparemment 5 niveaux, c'était trop raisonnable.</p></div>
+  <div class="header-actions"><a class="top-button" href="index.html">🌍 Retour à la carte</a><div id="accountArea"></div></div>
+</header>
+<main class="skills-page">
+  <section class="skill-header">
+    <div><h2>Points disponibles : <span id="skillPoints">0</span></h2><p>Tu gagnes 1 point tous les 50 pixels posés.</p></div>
+    <div class="skill-stat"><span>Pixels posés</span><strong id="totalPlaced">0</strong></div>
+  </section>
+  <section class="skill-tree">
+    <article class="skill-card">
+      <div class="skill-icon">📦</div><h3>Stockage</h3>
+      <p>Augmente le nombre maximum de pixels que tu peux garder.</p>
+      <div class="level" id="storageLevel">Niveau 0 / 36</div>
+      <div class="skill-progress"><div id="storageBar"></div></div>
+      <strong class="skill-stat-line" id="storageStat">20 / 200 pixels</strong>
+      <ul><li>+5 pixels maximum par niveau</li><li>Maximum : 200 pixels</li></ul>
+      <button class="skill-button" data-skill="storage">Améliorer • 1 point</button>
+    </article>
+    <article class="skill-card">
+      <div class="skill-icon">⏱️</div><h3>Recharge rapide</h3>
+      <p>Réduit progressivement le temps nécessaire pour récupérer une charge.</p>
+      <div class="level" id="cooldownLevel">Niveau 0 / 36</div>
+      <div class="skill-progress"><div id="cooldownBar"></div></div>
+      <strong class="skill-stat-line" id="cooldownStat">60 secondes / 20 secondes</strong>
+      <ul><li>De 60 s au niveau 0 à 20 s au niveau 36</li><li>Le serveur calcule la recharge réelle</li></ul>
+      <button class="skill-button" data-skill="cooldown">Améliorer • 1 point</button>
+    </article>
+    <article class="skill-card">
+      <div class="skill-icon">✨</div><h3>Pixel critique</h3>
+      <p>Une pose peut devenir gratuite et ne pas consommer de charge.</p>
+      <div class="level" id="critLevel">Niveau 0 / 36</div>
+      <div class="skill-progress"><div id="critBar"></div></div>
+      <strong class="skill-stat-line" id="critStat">0 % / 10 %</strong>
+      <ul><li>Progression jusqu'à 10 % maximum</li><li>Chance calculée côté serveur</li></ul>
+      <button class="skill-button" data-skill="crit">Améliorer • 1 point</button>
+    </article>
+  </section>
+  <div id="skillMessage" class="skill-message"></div>
+</main>
+<footer><span>PixelWorld • Open Source</span><span>Compétences liées à ton compte Discord</span></footer>
+<script src="skills.js"></script>
+</body>
+</html>
