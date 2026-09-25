@@ -4,16 +4,16 @@ PixelWorld est un jeu web communautaire de pixels, avec connexion Discord et pro
 
 ## Fonctionnalités de cette version
 
-- 🗺️ Carte **2500 × 2500**
+- 🗺️ Carte **5000 × 5000**
 - 💾 Sauvegarde persistante via **PostgreSQL** quand `DATABASE_URL` est configuré
 - 🧱 SQLite conservé comme fallback local
 - 🎨 24 couleurs + **couleurs personnalisées HEX**
 - 🚫 Impossible de recouvrir le pixel d'un autre joueur
 - ♻️ Tu peux modifier tes propres pixels
 - ⚡ 20 pixels de départ, stockage améliorable jusqu'à **200**
-- ⏱️ Recharge de **60 s → 20 s** avec 36 niveaux
-- ✨ Pixel critique jusqu'à **10 %** avec 36 niveaux
-- 🧠 36 niveaux pour chaque compétence
+- ⏱️ Recharge de **60 s → 20 s** avec 8 niveaux
+- ✨ Pixel critique jusqu'à **10 %** avec 10 niveaux
+- 🧠 niveaux pour chaque compétence
 - 🎁 **30 codes** de récupération, 10 pixels par code
 - 🔐 Un code ne peut être utilisé qu'une fois par compte Discord
 - 👤 Informations du créateur et de la dernière modification d'un pixel
