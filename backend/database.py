@@ -191,3 +191,57 @@ def redeem_code(code, discord_id, pixels):
     c.commit()
     c.close()
     return True
+
+
+def create_oauth_state(state, expires_at):
+    c = get_connection()
+
+    # Supprime les anciens états expirés
+    c.execute(
+        q("DELETE FROM oauth_states WHERE expires_at <= ?"),
+        (now().isoformat(),)
+    )
+
+    c.execute(
+        q("""INSERT INTO oauth_states(state, created_at, expires_at)
+             VALUES(?,?,?)"""),
+        (state, now().isoformat(), expires_at)
+    )
+
+    c.commit()
+    c.close()
+
+
+def consume_oauth_state(state):
+    c = get_connection()
+
+    row = c.execute(
+        q("SELECT expires_at FROM oauth_states WHERE state=?"),
+        (state,)
+    ).fetchone()
+
+    if not row:
+        c.close()
+        return False
+
+    expires_at = datetime.fromisoformat(row["expires_at"])
+
+    if expires_at <= now():
+        c.execute(
+            q("DELETE FROM oauth_states WHERE state=?"),
+            (state,)
+        )
+        c.commit()
+        c.close()
+        return False
+
+    # Un state ne peut être utilisé qu'une seule fois
+    c.execute(
+        q("DELETE FROM oauth_states WHERE state=?"),
+        (state,)
+    )
+
+    c.commit()
+    c.close()
+
+    return True
